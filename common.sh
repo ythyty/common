@@ -216,6 +216,42 @@ fi
 # 为编译做最后处理
 ################################################################################################################
 Diy_chuli() {
+
+	case "${REPO_BRANCH}" in
+	"master")
+		if [[ "${TARGET_PROFILE}" == "x86-64" ]]; then
+			cp -Rf "${Home}"/build/common/Custom/i915-5.4 target/linux/x86/config-5.4
+		elif [[ "${TARGET_PROFILE}" == "d-team_newifi-d2" ]]; then
+			cp -Rf "${Home}"/build/common/Custom/mac80211.sh package/kernel/mac80211/files/lib/wifi
+			cp -Rf "${Home}"/build/common/Custom/system_d-team_newifi-d2 package/base-files/files/etc/config/system
+		fi
+	;;
+	"19.07") 
+		if [[ "${TARGET_PROFILE}" == "x86-64" ]]; then
+			cp -Rf "${Home}"/build/common/Custom/i915-4.14 target/linux/x86/config-4.14
+		elif [[ "${TARGET_PROFILE}" == "d-team_newifi-d2" ]]; then
+			cp -Rf "${Home}"/build/common/Custom/mac80211.sh package/kernel/mac80211/files/lib/wifi
+			cp -Rf "${Home}"/build/common/Custom/system_d-team_newifi-d2 package/base-files/files/etc/config/system
+		fi
+	;;
+	"openwrt-18.06")
+		if [[ "${TARGET_PROFILE}" == "x86-64" ]]; then
+			cp -Rf "${Home}"/build/common/Custom/i915-4.19 target/linux/x86/config-4.19
+		elif [[ "${TARGET_PROFILE}" == "d-team_newifi-d2" ]]; then
+			cp -Rf "${Home}"/build/common/Custom/mac80211.sh package/kernel/mac80211/files/lib/wifi
+			cp -Rf "${Home}"/build/common/Custom/system_d-team_newifi-d2 package/base-files/files/etc/config/system
+		fi
+	;;
+	"openwrt-21.02")
+		if [[ "${TARGET_PROFILE}" == "x86-64" ]]; then
+			cp -Rf "${Home}"/build/common/Custom/i915-5.4 target/linux/x86/config-5.4
+		elif [[ "${TARGET_PROFILE}" == "d-team_newifi-d2" ]]; then
+			cp -Rf "${Home}"/build/common/Custom/mac80211.sh package/kernel/mac80211/files/lib/wifi
+			cp -Rf "${Home}"/build/common/Custom/system_d-team_newifi-d2 package/base-files/files/etc/config/system
+		fi
+	;;
+	esac
+
 grep -i CONFIG_PACKAGE_luci-app .config | grep  -v \# > Plug-in
 grep -i CONFIG_PACKAGE_luci-theme .config | grep  -v \# >> Plug-in
 awk '$0=NR$0' Plug-in > Plug-2
