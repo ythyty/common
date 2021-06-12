@@ -90,7 +90,7 @@ TIME b1 " 3. Project 源码"
 echo
 TIME b1 " 4. Spirit 源码"
 echo
-TIME b1 " 5. 更改固件安装引导格式（x86设置独有）"
+TIME b1 " 5. 更改固件安装引导格式（x86设备独有）"
 echo
 TIME r " 6. 退出源码转换"
 echo
