@@ -234,18 +234,22 @@ if [[ "${REPO_BRANCH}" == "master" ]]; then
           source build/${firmware}/common.sh && Diy_lede
           cp -Rf build/common/LEDE/files ./
           cp -Rf build/common/LEDE/diy/* ./
+	  cp -Rf build/common/LEDE/patches/* "${PATH1}/patches"
 elif [[ "${REPO_BRANCH}" == "19.07" ]]; then
           source build/${firmware}/common.sh && Diy_lienol
           cp -Rf build/common/LIENOL/files ./
           cp -Rf build/common/LIENOL/diy/* ./
+	  cp -Rf build/common/LIENOL/patches/* "${PATH1}/patches"
 elif [[ "${REPO_BRANCH}" == "openwrt-18.06" ]]; then
           source build/${firmware}/common.sh && Diy_1806
           cp -Rf build/common/PROJECT/files ./
           cp -Rf build/common/PROJECT/diy/* ./
+	  cp -Rf build/common/PROJECT/patches/* "${PATH1}/patches"
 elif [[ "${REPO_BRANCH}" == "openwrt-21.02" ]]; then
           source build/${firmware}/common.sh && Diy_2102
           cp -Rf build/common/SPIRIT/files ./
           cp -Rf build/common/SPIRIT/diy/* ./
+	  cp -Rf build/common/SPIRIT/patches/* "${PATH1}/patches"
 fi
 source build/$firmware/common.sh && Diy_all
 if [ -n "$(ls -A "build/$firmware/diy" 2>/dev/null)" ]; then
