@@ -38,7 +38,7 @@ Github 地址:		${Github}
 解析 API 地址:		${Github_Tags}
 固件下载地址:		${Github_Release}
 固件作者:		${Author}
-作者仓库:		${Cangku}
+作者仓库:		${CangKu}
 固件名称:		${Firmware_COMP1}-${CURRENT_Version}${Firmware_SFX}
 固件格式:		${Firmware_GESHI}
 EOF
