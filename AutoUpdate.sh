@@ -3,7 +3,7 @@
 # AutoBuild Module by Hyy2001
 # AutoUpdate for Openwrt
 
-Version=V5.7
+Version=V5.8
 
 Shell_Helper() {
 cat <<EOF
@@ -11,10 +11,12 @@ cat <<EOF
 更新参数:
 		bash /bin/AutoUpdate.sh				[保留配置更新]
 		bash /bin/AutoUpdate.sh	-n			[不保留配置更新]
+		bash /bin/AutoUpdate.sh	-g			[更改其他作者固件，不保留配置更新]
 			
 设置参数:
 		bash /bin/AutoUpdate.sh	-c Github地址		[更换 Github 检查更新以及固件下载地址]
-		bash /bin/AutoUpdate.sh	-b	        	[更换成其他源码作者的固件，x86设备更改安装引导]
+		bash /bin/AutoUpdate.sh	-b Legacy	        [x86设备 把固件更改成 Legacy 引导格式 (有不能引导的危险)]
+		bash /bin/AutoUpdate.sh	-b UEFI	        	[x86设备 把固件更改成 UEFI 引导格式 (有不能引导的危险)]
 	
 其    他:
 		bash /bin/AutoUpdate.sh	-t			[执行测试模式(只运行,不安装,查看更新固件操作流程)]
@@ -50,59 +52,35 @@ EOF
 }
 exit 0
 }
-Install_Pkg() {
-	export PKG_NAME=$1
-	if [[ ! "$(cat ${Download_Path}/Installed_PKG_List)" =~ "${PKG_NAME}" ]];then
-    		TIME g "未安装[ ${PKG_NAME} ],执行安装[ ${PKG_NAME} ],请耐心等待..."
-		wget --no-cookie --no-check-certificate -q -c -P /tmp https://downloads.openwrt.org/snapshots/packages/x86_64/packages/gzip_1.10-3_x86_64.ipk
-		opkg install /tmp/gzip_1.10-3_x86_64.ipk --force-depends > /dev/null 2>&1
-		if [[ $? -ne 0 ]];then
-			opkg update > /dev/null 2>&1
-			opkg install ${PKG_NAME} > /dev/null 2>&1
-			if [[ $? -ne 0 ]];then
-				TIME r "[ ${PKG_NAME} ]安装失败,请尝试手动安装!"
-				exit 1
-			else
-				TIME y "[ ${PKG_NAME} ]安装成功!"
-				TIME g "开始解压固件,请耐心等待..."
-			fi
-		else
-			rm -rf /tmp/gzip_1.10-3_x86_64.ipk
-			TIME y "[ ${PKG_NAME} ]安装成功!"
-			TIME g "开始解压固件,请耐心等待...!"
-		fi
-	fi
-}
 [ -f /etc/openwrt_info ] && source /etc/openwrt_info || {
 	TIME r "未检测到 /etc/openwrt_info,无法运行更新程序!"
 	exit 1
 }
 GengGai_Install() {
-TIME h "执行 源码转换"
-echo
-echo
 source /etc/openwrt_info
-TIME b1 " 1. Lede 源码"
+TIME h "执行 转换其他作者固件操作"
 echo
-TIME b1 " 2. Lienol 源码"
+TIME r "警告：选择[ 1、2、3、4 ]后，会立即执行强制不保留配置升级!"
 echo
-TIME b1 " 3. Project 源码"
 echo
-TIME b1 " 4. Spirit 源码"
+TIME b1 " 1. Lede 18.06 5.4内核版本 固件 "
 echo
-TIME b1 " 5. 更改固件安装引导格式（x86设备独有）"
+TIME b1 " 2. Lienol 19.07 4.14内核版本 固件"
 echo
-TIME r " 6. 退出源码转换"
+TIME b1 " 3. Project 18.06 4.19内核版本 固件 "
+echo
+TIME b1 " 4. Spirit 21.02 5.4内核版本 固件 "
+echo
+TIME r " 5. 退出固件转换程序"
 echo
 echo
 
 while :; do
 
-TIME g "请选更改的源码,输入[ 1、2、3、4、5 ]然后回车确认您的选择！" && read -p " 输入您的选择： " CHOOSE
+TIME g "请选序列号[ 1、2、3、4、5 ]输入，然后回车确认您的选择！" && read -p " 输入您的选择： " CHOOSE
 
 case $CHOOSE in
 	1)
-		Firmware_COMP2="lede"
 		echo "
 		Github="${Github}"
 		Author="${Author}"
@@ -117,15 +95,16 @@ case $CHOOSE in
 		Github_Tags="${Github_Tags}"
 		XiaZai="${XiaZai}"
 		" > /etc/openwrt_info
-		echo "Input_Other" > /tmp/Input_Other
 		awk '{sub(/^[ \t]+/,"");print $0}' /etc/openwrt_info > /etc/opgenggai
 		cat /etc/opgenggai > /etc/openwrt_info && rm -rf opgenggai
-		TIME y "您已把固件更为${Firmware_COMP2},因更改过源码,第一次不管使用任何更新命令都强制成不保留配置升级！"
-		echo
+		Upgrade_Options="${Github_Tags}"
+		TIME y "您已把固件更改为[ Lede 18.06 5.4内核版本 ]！"
+		TIME y "开始升级固件,请稍后...！"
+		sleep 5
+		bash /bin/AutoUpdate.sh -s
 	break
 	;;
 	2)
-		Firmware_COMP2="lienol"
 		echo "
 		Github="${Github}"
 		Author="${Author}"
@@ -140,15 +119,15 @@ case $CHOOSE in
 		Github_Tags="${Github_Tags}"
 		XiaZai="${XiaZai}"
 		" > /etc/openwrt_info
-		echo "Input_Other" > /tmp/Input_Other
 		awk '{sub(/^[ \t]+/,"");print $0}' /etc/openwrt_info > /etc/opgenggai
 		cat /etc/opgenggai > /etc/openwrt_info && rm -rf opgenggai
-		TIME y "您已把固件更为${Firmware_COMP2},因更改过源码,第一次不管使用任何更新命令都强制成不保留配置升级！"
-		echo
+		TIME y "您已把固件更改为[ Lienol 19.07 4.14内核版本 ]！"
+		TIME y "开始升级固件,请稍后...！"
+		sleep 5
+		bash /bin/AutoUpdate.sh -s
 	break
 	;;
 	3)
-		Firmware_COMP2="project"
 		echo "
 		Github="${Github}"
 		Author="${Author}"
@@ -163,15 +142,15 @@ case $CHOOSE in
 		Github_Tags="${Github_Tags}"
 		XiaZai="${XiaZai}"
 		" > /etc/openwrt_info
-		echo "Input_Other" > /tmp/Input_Other
 		awk '{sub(/^[ \t]+/,"");print $0}' /etc/openwrt_info > /etc/opgenggai
 		cat /etc/opgenggai > /etc/openwrt_info && rm -rf opgenggai
-		TIME y "您已把固件更为${Firmware_COMP2},因更改过源码,第一次不管使用任何更新命令都强制成不保留配置升级！"
-		echo
+		TIME y "您已把固件更改为[ Project 18.06 4.19内核版本 ]！"
+		TIME y "开始升级固件,请稍后...！"
+		sleep 5
+		bash /bin/AutoUpdate.sh -s
 	break
 	;;
 	4)
-		Firmware_COMP2="Spirit"
 		echo "
 		Github="${Github}"
 		Author="${Author}"
@@ -186,70 +165,17 @@ case $CHOOSE in
 		Github_Tags="${Github_Tags}"
 		XiaZai="${XiaZai}"
 		" > /etc/openwrt_info
-		echo "Input_Other" > /tmp/Input_Other
 		awk '{sub(/^[ \t]+/,"");print $0}' /etc/openwrt_info > /etc/opgenggai
 		cat /etc/opgenggai > /etc/openwrt_info && rm -rf opgenggai
-		TIME y "您已把固件更为${Firmware_COMP2},因更改过源码,第一次不管使用任何更新命令都强制成不保留配置升级！"
-		echo
+		TIME y "您已把固件更改为[ Spirit 21.02 5.4内核版本 ]！"
+		TIME y "开始升级固件,请稍后...！"
+		sleep 5
+		bash /bin/AutoUpdate.sh -s
 	break
 	;;
 	5)
-		YinDdao_Install
-		echo
-		TIME h "执行 安装引导格式转换"
-	break
-	;;
-	6)
-		TIME r "您选退出了源码转换程序"
-		exit 0
-	;;
-esac
-done
-}
-
-YinDdao_Install() {
-echo
-echo
-echo
-TIME h "执行 引导格式更改"
-echo
-echo
-TIME b1 " 1. Legacy 引导格式"
-echo
-TIME b1 " 2. UEFI 引导格式"
-echo
-TIME r " 3. 退出引导更改程序"
-echo
-echo
-
-while :; do
-
-TIME g "请选更改引导的序列号,输入[ 1、2、3 ]然后回车确认您的选择！" && read -p " 输入您的选择： " YDGS
-
-case $YDGS in
-	1)
-		echo "Legacy" > /etc/openwrt_boot
-		sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
-		echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
-		TIME y "固件引导方式已指定为: Legacy!"
-		echo "${Input_Other}" > /tmp/Input
-		echo
-		exit 0
-	break
-	;;
-	2)
-		echo "UEFI" > /etc/openwrt_boot
-		sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
-		echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
-		TIME y "固件引导方式已指定为: UEFI!"
-		echo "UEFI" > /tmp/Input
-		echo
-		exit 0
-	break
-	;;
-	3)
-		TIME r "您选择了退出更改程序"
-		echo
+		TIME r "您退出了固件转换程序"
+		sleep 2
 		exit 0
 	;;
 esac
@@ -312,7 +238,7 @@ x86-64)
 	export Firmware_TAR="${BOOT_Type}.tar.gz"
   	export Firmware_GESHI=".${Firmware_Type}"
 	export Detail_SFX="${BOOT_Type}.detail"
-	export Space_Min="600"
+	export Space_Min="400"
 ;;
 *)
 	export CURRENT_Device="$(jsonfilter -e '@.model.id' < /etc/board.json | tr ',' '_')"
@@ -326,11 +252,11 @@ CURRENT_Ver="${CURRENT_Version}${BOOT_Type}"
 cd /etc
 clear && echo "Openwrt-AutoUpdate Script ${Version}"
 if [[ -z "${Input_Option}" ]];then
-	export Upgrade_Options="-q"
+	export Upgrade_Options="-c"
 	TIME g "执行: 保留配置更新固件[静默模式]"
 else
 	case ${Input_Option} in
-	-t | -n | -f | -u | -N)
+	-t | -n | -f | -u | -N | -s)
 		case ${Input_Option} in
 		-t)
 			Input_Other="-t"
@@ -342,14 +268,19 @@ else
 			export Upgrade_Options="-n"
 			TIME h "执行: 更新固件(不保留配置)"
 		;;
+
+		-s)
+			export Upgrade_Options="-F -n"
+			TIME h "执行: 更新固件(不保留配置)"
+		;;
 		-f)
 			export Force_Update=1
-			export Upgrade_Options="-q"
+			export Upgrade_Options="-c"
 			TIME h "执行: 强制更新固件(保留配置)"
 		;;
 		-u)
 			export AutoUpdate_Mode=1
-			export Upgrade_Options="-q"
+			export Upgrade_Options="-c"
 		;;
 		esac
 	;;
@@ -391,8 +322,27 @@ else
 	-h | -help)
 		Shell_Helper
 	;;
-	-b)
+	-g)
 		GengGai_Install	
+	;;
+	-b)
+		if [[ -n "${Input_Other}" ]];then
+			case "${Input_Other}" in
+			UEFI | Legacy)
+				echo "${Input_Other}" > /etc/openwrt_boot
+				sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
+				echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
+				TIME y "固件引导方式已指定为: ${Input_Other}!"
+				exit 0
+			;;
+			*)
+				TIME r "错误的参数: [${Input_Other}],当前支持的选项: [UEFI/Legacy] !"
+				exit 1
+			;;
+			esac
+		else
+			Shell_Helper
+		fi	
 	;;
 	*)
 		echo -e "\nERROR INPUT: [$*]"
@@ -410,7 +360,6 @@ if [[ "$(cat ${Download_Path}/Installed_PKG_List)" =~ curl ]];then
 		TIME y "网络检测成功,您的梯子翻墙成功！"
 	fi
 fi
-Install_Pkg wget
 if [[ -z "${CURRENT_Version}" ]];then
 	TIME r "警告: 本地固件版本获取失败,请检查/etc/openwrt_info文件的CURRENT_Version值!"
 	exit 1
@@ -488,7 +437,7 @@ if [[ ! "${Force_Update}" == 1 ]];then
 	fi
 fi
 TIME g "列出详细信息..."
-sleep 2
+sleep 1
 echo -e "\n固件作者：${Author}"
 echo "设备名称：${CURRENT_Device}"
 echo "固件格式：${Firmware_GESHI}"
@@ -498,6 +447,7 @@ echo "固件格式：${Firmware_GESHI}"
 echo "固件名称：${Firmware}"
 echo "云压缩包：${Firmware_TARGZ}"
 echo "下载保存：${Download_Path}"
+sleep 1
 cd ${Download_Path}
 TIME g "正在下载云端固件,请耐心等待..."
 wget -q --no-cookie --no-check-certificate -T 15 -t 4 "https://download.fastgit.org/${XiaZai}/${Firmware_TARGZ}" -O ${Firmware_TARGZ}
@@ -540,19 +490,7 @@ CURRENT_SHA256="$(sha256sum ${Firmware} | cut -d ' ' -f1)"
 	TIME r "SHA256 对比失败,请检查网络后重试!"
 	exit 1
 }
-if [[ "${Compressed_Firmware}" == "YES" ]];then
-	TIME g "检测到固件为 [.img.gz] 压缩格式,开始解压固件..."
-	Install_Pkg gzip
-	gzip -dk ${Firmware} > /dev/null 2>&1
-	export Firmware="${Firmware_Name}${BOOT_Type}.img"
-	[[ $? == 0 ]] && {
-		TIME y "固件解压成功!"
-	} || {
-		TIME r "解压失败,请检查系统可用空间!"
-		exit 1
-	}
-fi
-TIME g "准备就绪,2秒后开始刷写固件..."
+TIME g "准备就绪,开始刷写固件..."
 [[ "${Input_Other}" == "-t" ]] && {
 	TIME z "测试模式运行完毕!"
 	rm -rf "${Download_Path}"
@@ -560,15 +498,9 @@ TIME g "准备就绪,2秒后开始刷写固件..."
 	echo
 	exit 0
 }
-sleep 2
-TIME h "正在刷写固件,期间请耐心等待..."
-if [ -n "$(ls -A "/tmp/Input_Other" 2>/dev/null)" ]; then
-	sysupgrade -n -F ${Firmware}
-elif [ -n "$(ls -A "/tmp/Input" 2>/dev/null)" ]; then
-	sysupgrade ${Upgrade_Options} -F ${Firmware}
-else
-	sysupgrade ${Upgrade_Options} ${Firmware}
-fi
+TIME h "3秒后开始刷写固件,可能需要2-3分钟,期间请耐心等待..."
+sleep 3
+sysupgrade ${Upgrade_Options} ${Firmware}
 [[ $? -ne 0 ]] && {
 	TIME r "固件刷写失败,请尝试手动更新固件!"
 	exit 1
