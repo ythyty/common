@@ -14,8 +14,7 @@ cat <<EOF
 			
 设置参数:
 		bash /bin/AutoUpdate.sh	-c Github地址		[更换 Github 检查更新以及固件下载地址]
-		bash /bin/AutoUpdate.sh	-b Legacy	        [x86设备 把 UEFI 更改成 Legacy 引导格式 [危险]
-		bash /bin/AutoUpdate.sh	-b UEFI	        	[x86设备 把 Legacy 更改成 UEFI 引导格式 [危险]
+		bash /bin/AutoUpdate.sh	-b	        	[更换成其他源码作者的固件，x86设备更改安装引导]
 	
 其    他:
 		bash /bin/AutoUpdate.sh	-t			[执行测试模式(只运行,不安装,查看更新固件操作流程)]
@@ -77,6 +76,184 @@ Install_Pkg() {
 [ -f /etc/openwrt_info ] && source /etc/openwrt_info || {
 	TIME r "未检测到 /etc/openwrt_info,无法运行更新程序!"
 	exit 1
+}
+GengGai_Install() {
+TIME h "执行 源码转换"
+echo
+echo
+source /etc/openwrt_info
+TIME b1 " 1. Lede 源码"
+echo
+TIME b1 " 2. Lienol 源码"
+echo
+TIME b1 " 3. Project 源码"
+echo
+TIME b1 " 4. Spirit 源码"
+echo
+TIME b1 " 5. 更改固件安装引导格式（x86设置独有）"
+echo
+TIME r " 6. 退出源码转换"
+echo
+echo
+
+while :; do
+
+TIME g "请选更改的源码,输入[ 1、2、3、4、5 ]然后回车确认您的选择！" && read -p " 输入您的选择： " CHOOSE
+
+case $CHOOSE in
+	1)
+		Firmware_COMP2="lede"
+		echo "
+		Github="${Github}"
+		Author="${Author}"
+		CangKu="${CangKu}"
+		Luci_Edition="18.06"
+		CURRENT_Version="lede-${DEFAULT_Device}-202106010101"
+		DEFAULT_Device="${DEFAULT_Device}"
+		Firmware_Type="${Firmware_Type}"
+		Firmware_COMP1="coolsnowwolf-18.06"
+		Firmware_COMP2="lede"
+		Github_Release="${Github_Release}"
+		Github_Tags="${Github_Tags}"
+		XiaZai="${XiaZai}"
+		" > /etc/openwrt_info
+		echo "Input_Other" > /tmp/Input_Other
+		awk '{sub(/^[ \t]+/,"");print $0}' /etc/openwrt_info > /etc/opgenggai
+		cat /etc/opgenggai > /etc/openwrt_info && rm -rf opgenggai
+		TIME y "您已把固件更为${Firmware_COMP2},因更改过源码,第一次不管使用任何更新命令都强制成不保留配置升级！"
+		echo
+	break
+	;;
+	2)
+		Firmware_COMP2="lienol"
+		echo "
+		Github="${Github}"
+		Author="${Author}"
+		CangKu="${CangKu}"
+		Luci_Edition="19.07"
+		CURRENT_Version="lienol-${DEFAULT_Device}-202106010101"
+		DEFAULT_Device="${DEFAULT_Device}"
+		Firmware_Type="${Firmware_Type}"
+		Firmware_COMP1="openwrt-19.07"
+		Firmware_COMP2="lienol"
+		Github_Release="${Github_Release}"
+		Github_Tags="${Github_Tags}"
+		XiaZai="${XiaZai}"
+		" > /etc/openwrt_info
+		echo "Input_Other" > /tmp/Input_Other
+		awk '{sub(/^[ \t]+/,"");print $0}' /etc/openwrt_info > /etc/opgenggai
+		cat /etc/opgenggai > /etc/openwrt_info && rm -rf opgenggai
+		TIME y "您已把固件更为${Firmware_COMP2},因更改过源码,第一次不管使用任何更新命令都强制成不保留配置升级！"
+		echo
+	break
+	;;
+	3)
+		Firmware_COMP2="project"
+		echo "
+		Github="${Github}"
+		Author="${Author}"
+		CangKu="${CangKu}"
+		Luci_Edition="18.06"
+		CURRENT_Version="project-${DEFAULT_Device}-202106010101"
+		DEFAULT_Device="${DEFAULT_Device}"
+		Firmware_Type="${Firmware_Type}"
+		Firmware_COMP1="immortalwrt-18.06"
+		Firmware_COMP2="project"
+		Github_Release="${Github_Release}"
+		Github_Tags="${Github_Tags}"
+		XiaZai="${XiaZai}"
+		" > /etc/openwrt_info
+		echo "Input_Other" > /tmp/Input_Other
+		awk '{sub(/^[ \t]+/,"");print $0}' /etc/openwrt_info > /etc/opgenggai
+		cat /etc/opgenggai > /etc/openwrt_info && rm -rf opgenggai
+		TIME y "您已把固件更为${Firmware_COMP2},因更改过源码,第一次不管使用任何更新命令都强制成不保留配置升级！"
+		echo
+	break
+	;;
+	4)
+		Firmware_COMP2="Spirit"
+		echo "
+		Github="${Github}"
+		Author="${Author}"
+		CangKu="${CangKu}"
+		Luci_Edition="21.02"
+		CURRENT_Version="Spirit-${DEFAULT_Device}-202106010101"
+		DEFAULT_Device="${DEFAULT_Device}"
+		Firmware_Type="${Firmware_Type}"
+		Firmware_COMP1="ctcgfw-21.02"
+		Firmware_COMP2="Spirit"
+		Github_Release="${Github_Release}"
+		Github_Tags="${Github_Tags}"
+		XiaZai="${XiaZai}"
+		" > /etc/openwrt_info
+		echo "Input_Other" > /tmp/Input_Other
+		awk '{sub(/^[ \t]+/,"");print $0}' /etc/openwrt_info > /etc/opgenggai
+		cat /etc/opgenggai > /etc/openwrt_info && rm -rf opgenggai
+		TIME y "您已把固件更为${Firmware_COMP2},因更改过源码,第一次不管使用任何更新命令都强制成不保留配置升级！"
+		echo
+	break
+	;;
+	5)
+		YinDdao_Install
+		echo
+		TIME h "执行 安装引导格式转换"
+	break
+	;;
+	6)
+		TIME r "您选退出了源码转换程序"
+		exit 0
+	;;
+esac
+done
+}
+
+YinDdao_Install() {
+echo
+echo
+echo
+TIME h "执行 引导格式更改"
+echo
+echo
+TIME b1 " 1. Legacy 引导格式"
+echo
+TIME b1 " 2. UEFI 引导格式"
+echo
+TIME r " 3. 退出引导更改程序"
+echo
+echo
+
+while :; do
+
+TIME g "请选更改引导的序列号,输入[ 1、2、3 ]然后回车确认您的选择！" && read -p " 输入您的选择： " YDGS
+
+case $YDGS in
+	1)
+		echo "Legacy" > /etc/openwrt_boot
+		sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
+		echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
+		TIME y "固件引导方式已指定为: Legacy!"
+		echo "${Input_Other}" > /tmp/Input
+		echo
+		exit 0
+	break
+	;;
+	2)
+		echo "UEFI" > /etc/openwrt_boot
+		sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
+		echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
+		TIME y "固件引导方式已指定为: UEFI!"
+		echo "UEFI" > /tmp/Input
+		echo
+		exit 0
+	break
+	;;
+	3)
+		TIME r "您选择了退出更改程序"
+		echo
+		exit 0
+	;;
+esac
+done
 }
 export Input_Option=$1
 export Input_Other=$2
@@ -215,23 +392,7 @@ else
 		Shell_Helper
 	;;
 	-b)
-		if [[ -n "${Input_Other}" ]];then
-			case "${Input_Other}" in
-			UEFI | Legacy)
-				echo "${Input_Other}" > /etc/openwrt_boot
-				sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
-				echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
-				TIME y "固件引导方式已指定为: ${Input_Other}!"
-				exit 0
-			;;
-			*)
-				TIME r "错误的参数: [${Input_Other}],当前支持的选项: [UEFI/Legacy] !"
-				exit 1
-			;;
-			esac
-		else
-			Shell_Helper
-		fi	
+		GengGai_Install	
 	;;
 	*)
 		echo -e "\nERROR INPUT: [$*]"
@@ -401,7 +562,13 @@ TIME g "准备就绪,2秒后开始刷写固件..."
 }
 sleep 2
 TIME h "正在刷写固件,期间请耐心等待..."
-sysupgrade ${Upgrade_Options} ${Firmware}
+if [ -n "$(ls -A "/tmp/Input_Other" 2>/dev/null)" ]; then
+	sysupgrade -n -F ${Firmware}
+elif [ -n "$(ls -A "/tmp/Input" 2>/dev/null)" ]; then
+	sysupgrade ${Upgrade_Options} -F ${Firmware}
+else
+	sysupgrade ${Upgrade_Options} ${Firmware}
+fi
 [[ $? -ne 0 ]] && {
 	TIME r "固件刷写失败,请尝试手动更新固件!"
 	exit 1
