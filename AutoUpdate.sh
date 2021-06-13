@@ -17,7 +17,7 @@ cat <<EOF
 		bash /bin/AutoUpdate.sh	-c			[更换检查更新以及固件下载的Github地址]
 		bash /bin/AutoUpdate.sh	-b		        [x86设备 更改引导格式设置]
 		bash /bin/AutoUpdate.sh	-t			[执行测试模式(只运行,不安装,查看更新固件操作流程)]
-		bash /bin/AutoUpdate.sh	-l			[列出所有信息]
+		bash /bin/AutoUpdate.sh	-l			[列出所有更新固件相关信息]
 		bash /bin/AutoUpdate.sh	-h			[列出命令使用帮助信息]
 	
 EOF
