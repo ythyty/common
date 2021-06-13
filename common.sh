@@ -221,6 +221,7 @@ case "${REPO_BRANCH}" in
 "master")
 	if [[ "${TARGET_PROFILE}" == "x86-64" ]]; then
 		cp -Rf "${Home}"/build/common/Custom/i915-5.4 target/linux/x86/config-5.4
+		cp -Rf "${Home}"/build/common/Custom/i915-4.19 target/linux/x86/config-4.19
 	elif [[ "${TARGET_PROFILE}" == "d-team_newifi-d2" ]]; then
 		cp -Rf "${Home}"/build/common/Custom/mac80211.sh package/kernel/mac80211/files/lib/wifi
 		cp -Rf "${Home}"/build/common/Custom/system_d-team_newifi-d2 package/base-files/files/etc/config/system
@@ -229,6 +230,7 @@ case "${REPO_BRANCH}" in
 "19.07") 
 	if [[ "${TARGET_PROFILE}" == "x86-64" ]]; then
 		cp -Rf "${Home}"/build/common/Custom/i915-4.14 target/linux/x86/config-4.14
+		cp -Rf "${Home}"/build/common/Custom/i915-4.19 target/linux/x86/config-4.19
 	elif [[ "${TARGET_PROFILE}" == "d-team_newifi-d2" ]]; then
 		cp -Rf "${Home}"/build/common/Custom/mac80211.sh package/kernel/mac80211/files/lib/wifi
 		cp -Rf "${Home}"/build/common/Custom/system_d-team_newifi-d2 package/base-files/files/etc/config/system
@@ -236,6 +238,7 @@ case "${REPO_BRANCH}" in
 ;;
 "openwrt-18.06")
 	if [[ "${TARGET_PROFILE}" == "x86-64" ]]; then
+		cp -Rf "${Home}"/build/common/Custom/i915-4.14 target/linux/x86/config-4.14
 		cp -Rf "${Home}"/build/common/Custom/i915-4.19 target/linux/x86/config-4.19
 	elif [[ "${TARGET_PROFILE}" == "d-team_newifi-d2" ]]; then
 		cp -Rf "${Home}"/build/common/Custom/mac80211.sh package/kernel/mac80211/files/lib/wifi
