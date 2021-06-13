@@ -20,7 +20,9 @@ TIME() {
 if [[ -n "$(ls -A "openwrt/GengGai" 2>/dev/null)" ]]; then
 	echo
 	echo
-	TIME z "警告：您确定需要更改源码重新编译?" && read -p " [Y/y确认，回车否定]： " GENG
+	TIME z "警告：您确定需要更改源码重新编译?"
+	echo
+	read -p " [Y/y确认，回车否定]： " GENG
 	case $GENG in
 		[Yy])
 			echo
