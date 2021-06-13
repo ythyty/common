@@ -179,6 +179,7 @@ case $RELE in
 	;;
 	*)
 		TIME r "您已关闭把‘定时更新插件’编译进固件！"
+		rm -rf openwrt/bin/Firmware
 		Github="https://github.com/281677160/AutoBuild-OpenWrt"
 	;;
 esac
