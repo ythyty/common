@@ -285,26 +285,27 @@ else
 		esac
 	;;
 	-c)
-		if [[ -n "${Input_Other}" ]] && [[ ! "${Input_Other}" == "-t" ]];then
-			[[ ! "${Input_Other}" =~ "https://github.com/" ]] && {
-				TIME g "INPUT: ${Input_Other}"
-				TIME r "错误的 Github 地址,请重新输入!"
-				TIME y "正确示例: https://github.com/281677160/Build-Actions"
-				echo
-				exit 1
-			}
+			source /etc/openwrt_info
+			echo
+			TIME h "执行：更换[Github地址]操作"
+			TIME y "地址格式：https://github.com/帐号/仓库"
+			TIME z  "正确地址示例：https://github.com/281677160/AutoBuild-OpenWrt"
+			TIME h  "现在所用地址为：${Github}"
+			echo
+			read -p "请输入新的Github地址：" Input_Other
+			Input_Other="${Input_Other:-"$Github"}"
 			Github_uci=$(uci get autoupdate.@login[0].github 2>/dev/null)
 			[[ -n "${Github_uci}" ]] && [[ "${Github_uci}" != "${Input_Other}" ]] && {
 				uci set autoupdate.@login[0].github=${Input_Other}
 				uci commit autoupdate
+				TIME y "Github 地址已更换为: ${Input_Other}"
 				TIME y "UCI 设置已更新!"
 				echo
 			}
+			Input_Other="${Input_Other:-"$Github"}"
 			[[ "${Github}" != "${Input_Other}" ]] && {
 				sed -i "s?${Github}?${Input_Other}?g" /etc/openwrt_info
-				TIME y "Github 地址已更换为: ${Input_Other}"
 				unset Input_Other
-				echo
 				exit 0
 			} || {
 				TIME g "INPUT: ${Input_Other}"
@@ -312,9 +313,6 @@ else
 				echo
 				exit 1
 			}
-		else
-			Shell_Helper
-		fi
 	;;
 	-l | -list)
 		List_Info
