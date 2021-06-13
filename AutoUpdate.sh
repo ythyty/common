@@ -15,8 +15,7 @@ cat <<EOF
 			
 设置参数:
 		bash /bin/AutoUpdate.sh	-c			[更换检查更新以及固件下载的Github地址]
-		bash /bin/AutoUpdate.sh	-b Legacy	        [x86设备 把固件更改成 Legacy 引导格式 (有不能引导的危险)]
-		bash /bin/AutoUpdate.sh	-b UEFI	        	[x86设备 把固件更改成 UEFI 引导格式 (有不能引导的危险)]
+		bash /bin/AutoUpdate.sh	-b		        [x86设备 更改引导格式设置]
 	
 其    他:
 		bash /bin/AutoUpdate.sh	-t			[执行测试模式(只运行,不安装,查看更新固件操作流程)]
@@ -341,23 +340,31 @@ else
 		read -p "请输入您的选择： " YDGS
 		case $YDGS in
 			1)
+				source /etc/openwrt_info
 				echo "Legacy" > /etc/openwrt_boot
 				sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
 				echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
 				TIME y "固件引导方式已指定为: Legacy!"
-				echo "${Input_Other}" > /tmp/Input
+				sed -i '/CURRENT_Version/d' /etc/openwrt_info > /dev/null 2>&1
+				echo -e "\nCURRENT_Version=${Firmware_COMP2}-${DEFAULT_Device}-202106010101" >> /etc/openwrt_info
+				TIME y "3秒后开始更新固件，请稍后...!"
 				echo
-				exit 0
+				sleep 3
+				bash /bin/AutoUpdate.sh -s
 			break
 			;;
 			2)
+				source /etc/openwrt_info
 				echo "UEFI" > /etc/openwrt_boot
 				sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
 				echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
-				TIME y "固件引导方式已指定为: UEFI!"
-				echo "UEFI" > /tmp/Input
+				TIME y "固件引导方式已指定为: Legacy!"
+				sed -i '/CURRENT_Version/d' /etc/openwrt_info > /dev/null 2>&1
+				echo -e "\nCURRENT_Version=${Firmware_COMP2}-${DEFAULT_Device}-202106010101" >> /etc/openwrt_info
+				TIME y "3秒后开始更新固件，请稍后...!"
 				echo
-				exit 0
+				sleep 3
+				bash /bin/AutoUpdate.sh -s
 			break
 			;;
 			3)
