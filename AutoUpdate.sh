@@ -251,6 +251,7 @@ esac
 CURRENT_Ver="${CURRENT_Version}${BOOT_Type}"
 cd /etc
 clear && echo "Openwrt-AutoUpdate Script ${Version}"
+echo
 if [[ -z "${Input_Option}" ]];then
 	export Upgrade_Options="-c"
 	TIME g "执行: 保留配置更新固件[静默模式]"
@@ -286,7 +287,6 @@ else
 	;;
 	-c)
 			source /etc/openwrt_info
-			echo
 			TIME h "执行：更换[Github地址]操作"
 			TIME y "地址格式：https://github.com/帐号/仓库"
 			TIME z  "正确地址示例：https://github.com/281677160/AutoBuild-OpenWrt"
