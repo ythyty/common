@@ -57,7 +57,9 @@ exit 0
 }
 GengGai_Install() {
 source /etc/openwrt_info
-TIME h "执行 转换其他作者固件操作"
+TIME h "执行：转换其他作者固件操作"
+echo
+TIME y "执行前提是你编译了有其他作者的固件且已经发布到github的releases里的update_Firmware"
 echo
 TIME r "警告：选择[ 1、2、3、4 ]后，会立即执行强制不保留配置升级!"
 echo
