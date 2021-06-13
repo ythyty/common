@@ -239,7 +239,6 @@ x86-64)
 	export Firmware_TAR="${BOOT_Type}.tar.gz"
   	export Firmware_GESHI=".${Firmware_Type}"
 	export Detail_SFX="${BOOT_Type}.detail"
-	export Space_Min="400"
 ;;
 *)
 	export CURRENT_Device="$(jsonfilter -e '@.model.id' < /etc/board.json | tr ',' '_')"
@@ -426,14 +425,6 @@ let Y=$(sed -n "${X}p" ${Download_Path}/Github_Tags | egrep -o "[0-9]+" | awk '{
 export CLOUD_Firmware_Size="$(($Y+$Y))"
 echo -e "\n本地版本：${CURRENT_Ver}"
 echo "云端版本：${CLOUD_Version}"	
-if [[ "${DEFAULT_Device}" == "x86-64" ]];then
-  	[[ "${TMP_Available}" -lt "${Space_Min}" ]] && {
-		TIME g "tmp 剩余空间: ${TMP_Available}M"
-	  	TIME r "x86设备tmp空间不足[${Space_Min}M],无法执行更新,请清理tmp空间或者增加运行内存!"
-		echo
-	  	exit 1
-  	}
-fi	
 [[ "${TMP_Available}" -lt "${CLOUD_Firmware_Size}" ]] && {
 	TIME g "tmp 剩余空间: ${TMP_Available}M"
 	TIME r "tmp空间不足[${CLOUD_Firmware_Size}M],无法执行更新,请清理tmp空间或者增加运行内存!"
