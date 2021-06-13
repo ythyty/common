@@ -273,7 +273,7 @@ else
 
 		-s)
 			export Upgrade_Options="-F -n"
-			TIME h "执行: 强制安装固件(不保留配置)"
+			TIME h "执行: 强制更新固件(不保留配置)"
 		;;
 
 		-u)
