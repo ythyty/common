@@ -264,6 +264,8 @@ if [ "$?" == "0" ]; then
 	echo
 	TIME g "结束时间：${End}"
 	echo
+	TIME g "固件已经存入openwrt/bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}文件夹中"
+	echo
 	if [[ "${REGULAR_UPDATE}" == "true" ]]; then
 		rm -rf bin/Firmware
 		source build/${firmware}/upgrade.sh && Diy_Part3
