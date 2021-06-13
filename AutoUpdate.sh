@@ -11,7 +11,7 @@ cat <<EOF
 更新参数:
 		bash /bin/AutoUpdate.sh				[保留配置更新]
 		bash /bin/AutoUpdate.sh	-n			[不保留配置更新]
-		bash /bin/AutoUpdate.sh	-g			[更改其他作者固件，不保留配置更新]
+		bash /bin/AutoUpdate.sh	-f			[更改其他作者固件，不保留配置更新]
 			
 其    他:
 		bash /bin/AutoUpdate.sh	-c			[更换检查更新以及固件下载的Github地址]
@@ -271,13 +271,9 @@ else
 
 		-s)
 			export Upgrade_Options="-F -n"
-			TIME h "执行: 更新固件(不保留配置)"
+			TIME h "执行: 强制安装固件(不保留配置)"
 		;;
-		-f)
-			export Force_Update=1
-			export Upgrade_Options="-c"
-			TIME h "执行: 强制更新固件(保留配置)"
-		;;
+
 		-u)
 			export AutoUpdate_Mode=1
 			export Upgrade_Options="-c"
@@ -319,7 +315,7 @@ else
 	-h | -help)
 		Shell_Helper
 	;;
-	-g)
+	-f)
 		GengGai_Install	
 	;;
 	-b)
