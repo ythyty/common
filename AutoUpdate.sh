@@ -333,7 +333,7 @@ else
 				sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
 				echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
 				TIME y "固件引导方式已指定为: ${Input_Other}!"
-				exit 0
+				bash /bin/AutoUpdate.sh -s
 			;;
 			*)
 				TIME r "错误的参数: [${Input_Other}],当前支持的选项: [UEFI/Legacy] !"
@@ -501,7 +501,4 @@ TIME g "准备就绪,开始刷写固件..."
 TIME h "3秒后开始刷写固件,可能需要2-3分钟,期间请耐心等待..."
 sleep 3
 sysupgrade ${Upgrade_Options} ${Firmware}
-[[ $? -ne 0 ]] && {
-	TIME r "固件刷写失败,请尝试手动更新固件!"
-	exit 1
-}
+exit 0
