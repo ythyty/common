@@ -324,23 +324,48 @@ else
 		GengGai_Install	
 	;;
 	-b)
-		if [[ -n "${Input_Other}" ]];then
-			case "${Input_Other}" in
-			UEFI | Legacy)
-				echo "${Input_Other}" > /etc/openwrt_boot
+		TIME h "执行 引导格式更改"
+		echo
+		TIME r "更改引导格式有更新固件时不能安装固件的风险"
+		TIME z "爱快虚拟机的请勿使用,因爱快虚拟机不管你用什么引导格式的固件安装后都默认为Legacy引导格式"
+		echo
+		echo
+		TIME b1 " 1. 强制改为[Legacy引导格式]"
+		TIME b1 " 2. 强制改为[UEFI引导格式]"
+		TIME r " 3. 退出引导更改程序"
+		echo
+		while :; do
+		TIME g "请选择序列号[ 1、2、3 ]输入,然后回车确认您的选择！"
+		echo
+		read -p "请输入您的选择： " YDGS
+		case $YDGS in
+			1)
+				echo "Legacy" > /etc/openwrt_boot
 				sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
 				echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
-				TIME y "固件引导方式已指定为: ${Input_Other}!"
-				bash /bin/AutoUpdate.sh -s
+				TIME y "固件引导方式已指定为: Legacy!"
+				echo "${Input_Other}" > /tmp/Input
+				echo
+				exit 0
+			break
 			;;
-			*)
-				TIME r "错误的参数: [${Input_Other}],当前支持的选项: [UEFI/Legacy] !"
-				exit 1
+			2)
+				echo "UEFI" > /etc/openwrt_boot
+				sed -i '/openwrt_boot/d' /etc/sysupgrade.conf
+				echo -e "\n/etc/openwrt_boot" >> /etc/sysupgrade.conf
+				TIME y "固件引导方式已指定为: UEFI!"
+				echo "UEFI" > /tmp/Input
+				echo
+				exit 0
+			break
 			;;
-			esac
-		else
-			Shell_Helper
-		fi	
+			3)
+				TIME r "您选择了退出更改程序"
+				echo
+				exit 0
+			;;
+		esac
+		done	
 	;;
 	*)
 		echo -e "\nERROR INPUT: [$*]"
