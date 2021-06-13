@@ -13,11 +13,9 @@ cat <<EOF
 		bash /bin/AutoUpdate.sh	-n			[不保留配置更新]
 		bash /bin/AutoUpdate.sh	-g			[更改其他作者固件，不保留配置更新]
 			
-设置参数:
+其    他:
 		bash /bin/AutoUpdate.sh	-c			[更换检查更新以及固件下载的Github地址]
 		bash /bin/AutoUpdate.sh	-b		        [x86设备 更改引导格式设置]
-	
-其    他:
 		bash /bin/AutoUpdate.sh	-t			[执行测试模式(只运行,不安装,查看更新固件操作流程)]
 		bash /bin/AutoUpdate.sh	-l			[列出所有信息]
 		bash /bin/AutoUpdate.sh	-h			[列出命令使用帮助信息]
