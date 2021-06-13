@@ -323,7 +323,7 @@ else
 		GengGai_Install	
 	;;
 	-b)
-		TIME h "执行 引导格式更改"
+		TIME h "执行：引导格式更改操作"
 		echo
 		TIME r "警告：更改引导格式有更新固件时不能安装固件的风险,请慎重！"
 		TIME h "爱快虚拟机的请勿使用,因爱快虚拟机只支持Legacy引导格式"
@@ -387,7 +387,7 @@ TIME b "检测网络环境中,请稍后..."
 if [[ "$(cat ${Download_Path}/Installed_PKG_List)" =~ curl ]];then
 	export Google_Check=$(curl -I -s --connect-timeout 8 google.com -w %{http_code} | tail -n1)
 	if [ ! "$Google_Check" == 301 ];then
-		TIME z "网络检测失败,请先使用梯子翻墙再来尝试!"
+		TIME z "网络检测失败,因Github现在也筑墙了,请先使用梯子翻墙再来尝试!"
 		exit 1
 	else
 		TIME y "网络检测成功,您的梯子翻墙成功！"
