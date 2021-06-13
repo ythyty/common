@@ -14,7 +14,7 @@ cat <<EOF
 		bash /bin/AutoUpdate.sh	-g			[更改其他作者固件，不保留配置更新]
 			
 设置参数:
-		bash /bin/AutoUpdate.sh	-c Github地址		[更换 Github 检查更新以及固件下载地址]
+		bash /bin/AutoUpdate.sh	-c			[更换检查更新以及固件下载的Github地址]
 		bash /bin/AutoUpdate.sh	-b Legacy	        [x86设备 把固件更改成 Legacy 引导格式 (有不能引导的危险)]
 		bash /bin/AutoUpdate.sh	-b UEFI	        	[x86设备 把固件更改成 UEFI 引导格式 (有不能引导的危险)]
 	
