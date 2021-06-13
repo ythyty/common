@@ -335,6 +335,7 @@ else
 		TIME b1 " 2. 强制改为[UEFI引导格式]"
 		TIME r " 3. 退出引导更改程序"
 		echo
+		echo
 		while :; do
 		TIME g "请选择序列号[ 1、2、3 ]输入,然后回车确认您的选择！"
 		echo
