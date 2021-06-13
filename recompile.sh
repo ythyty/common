@@ -122,6 +122,7 @@ read -p " [Y/y确认，回车否定]： " RELE
 case $RELE in
 	[Yy])
 		REG_UPDATE="true"
+		rm -rf openwrt/bin/Firmware
 		echo "Compile_Date=$(date +%Y%m%d%H%M)" > Openwrt.info
 		[ -f Openwrt.info ] && . Openwrt.info
 		
