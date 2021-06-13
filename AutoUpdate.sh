@@ -427,7 +427,7 @@ echo -e "\n本地版本：${CURRENT_Ver}"
 echo "云端版本：${CLOUD_Version}"	
 [[ "${TMP_Available}" -lt "${CLOUD_Firmware_Size}" ]] && {
 	TIME g "tmp 剩余空间: ${TMP_Available}M"
-	TIME r "tmp空间不足[${CLOUD_Firmware_Size}M],无法执行更新,请清理tmp空间或者增加运行内存!"
+	TIME r "tmp空间不足[${CLOUD_Firmware_Size}M],不够下载和解压固件所需,请清理tmp空间或者增加运行内存!"
 	echo
 	exit 1
 }
