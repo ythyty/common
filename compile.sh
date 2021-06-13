@@ -84,7 +84,9 @@ if [[ "${Ubuntu_kj}" -lt "30" ]];then
 	echo
 	TIME z "您当前系统可用空间为${Ubuntu_kj}G"
 	echo ""
-	TIME r "敬告：可用空间小于[ 30G ]编译容易出错,是否继续?" && read -p " [回车退出，Y/y确认继续]： " YN
+	TIME r "敬告：可用空间小于[ 30G ]编译容易出错,是否继续?"
+	echo
+	read -p " [回车退出，Y/y确认继续]： " YN
 	case ${YN} in
 		[Yy]) 
 			TIME g  "可用空间太小严重影响编译,请满天神佛保佑您成功吧！"
@@ -108,11 +110,10 @@ echo
 TIME r " 5. 退出编译程序"
 echo
 echo
-
 while :; do
-
-TIME g "请选择编译源码,输入[ 1、2、3、4、5 ]然后回车确认您的选择！" && read -p " 输入您的选择： " CHOOSE
-
+TIME g "请选择编译源码,输入[ 1、2、3、4、5 ]然后回车确认您的选择！"
+echo
+read -p " 输入您的选择： " CHOOSE
 case $CHOOSE in
 	1)
 		firmware="Lede_source"
@@ -143,12 +144,16 @@ esac
 done
 echo
 echo
-TIME g "设置openwrt的IP地址[ 不输入IP,直接回车默认 192.168.1.1 ]" && read -p " 请输入后台IP地址：" ip
+TIME g "设置openwrt的IP地址[ 不输入IP,直接回车默认 192.168.1.1 ]"
+echo
+read -p " 请输入后台IP地址：" ip
 ip=${ip:-"192.168.1.1"}
 TIME y "您的后台地址为：$ip"
 echo
 echo
-TIME g "是否需要选择机型和增删插件?" && read -p " [Y/y确认，回车否定]： " MENU
+TIME g "是否需要选择机型和增删插件?"
+echo
+read -p " [Y/y确认，回车否定]： " MENU
 case $MENU in
 	[Yy])
 		Menuconfig="YES"
@@ -160,7 +165,9 @@ case $MENU in
 esac
 echo
 echo
-TIME g "是否把定时更新插件编译进固件?"  && read -p " [Y/y确认，回车否定]： " RELE
+TIME g "是否把定时更新插件编译进固件?"
+echo
+read -p " [Y/y确认，回车否定]： " RELE
 case $RELE in
 	[Yy])
 		REG_UPDATE="true"
@@ -176,7 +183,9 @@ esac
 if [[ "${REG_UPDATE}" == "true" ]]; then
 	Git="https://github.com/281677160/AutoBuild-OpenWrt"
 	TIME g "设置Github地址,定时更新固件需要把固件传至对应地址的Releases"
-	TIME z "回车默认为：$Git"  && read -p " 请输入Github地址：" Github
+	TIME z "回车默认为：$Git"
+	echo
+	read -p " 请输入Github地址：" Github
 	Github="${Github:-"$Git"}"
 	TIME y "您的Github地址为：$Github"
 	Apidz="${Github##*com/}"
