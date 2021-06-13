@@ -514,13 +514,13 @@ CURRENT_SHA256="$(sha256sum ${Firmware} | cut -d ' ' -f1)"
 [[ "${CURRENT_MD5}" != "${CLOUD_MD5}" ]] && {
 	echo -e "\n本地MD5: ${CURRENT_MD5}"
 	echo "云端MD5: ${CLOUD_MD5}"
-	TIME r "MD5 对比失败,固件可能因网络原因下载不完整"
+	TIME r "MD5 对比失败,固件可能因网络原因固件下载不完整"
 	exit 1
 }
 [[ "${CURRENT_SHA256}" != "${CLOUD_SHA256}" ]] && {
 	echo -e "\n本地SHA256: ${CURRENT_SHA256}"
 	echo "云端SHA256: ${CLOUD_SHA256}"
-	TIME r "SHA256 对比失败,固件可能因网络原因下载不完整"
+	TIME r "SHA256 对比失败,固件可能因网络原因固件下载不完整"
 	exit 1
 }
 TIME g "准备就绪,开始刷写固件..."
