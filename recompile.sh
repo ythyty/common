@@ -56,7 +56,9 @@ elif [[ `grep -c "CONFIG_TARGET.*DEVICE.*=y" openwrt/.bf_config` -eq '1' ]]; the
 else
           TARGET_PROFILE="armvirt"
 fi
-TIME g "使用[${firmware}]源码编译[${TARGET_PROFILE}]固件,是否更换源码?" && read -p " [Y/y确认，回车跳过]： " GHYM
+TIME g "使用[${firmware}]源码编译[${TARGET_PROFILE}]固件,是否更换源码?"
+echo
+read -p " [Y/y确认，回车跳过]： " GHYM
 case $GHYM in
 	[Yy])
 		echo "GengGai" > openwrt/GengGai
@@ -74,7 +76,9 @@ echo
 if [[ "${Ubuntu_kj}" -lt "20" ]];then
 	TIME z "您当前系统可用空间为${Ubuntu_kj}G"
 	echo ""
-	TIME r "敬告：可用空间小于[ 20G ]编译容易出错,是否继续?" && read -p " [回车退出，Y/y确认继续]： " YN
+	TIME r "敬告：可用空间小于[ 20G ]编译容易出错,是否继续?"
+	echo
+	read -p " [回车退出，Y/y确认继续]： " YN
 	case ${YN} in
 		[Yy]) 
 			TIME g  "可用空间太小严重影响编译,请满天神佛保佑您成功吧！"
@@ -89,14 +93,18 @@ if [[ "${Ubuntu_kj}" -lt "20" ]];then
 fi
 echo
 echo
-TIME g "设置openwrt的IP地址[ 回车默认 $ipdz ]" && read -p " 请输入后台IP地址：" ip
+TIME g "设置openwrt的IP地址[ 回车默认 $ipdz ]"
+echo
+read -p " 请输入后台IP地址：" ip
 ip=${ip:-"$ipdz"}
 TIME y "您的后台地址为：$ip"
 sed -i '/ipdz/d' openwrt/$Core
 echo "ipdz=$ip" >> openwrt/$Core
 echo
 echo
-TIME g "是否需要选择机型和增删插件?" && read -p " [Y/y确认，回车否定]： " MENU
+TIME g "是否需要选择机型和增删插件?"
+echo
+read -p " [Y/y确认，回车否定]： " MENU
 case $MENU in
 	[Yy])
 		Menuconfig="YES"
@@ -108,7 +116,9 @@ case $MENU in
 esac
 echo
 echo
-TIME g "是否把定时更新插件编译进固件?"  && read -p " [Y/y确认，回车否定]： " RELE
+TIME g "是否把定时更新插件编译进固件?"
+echo
+read -p " [Y/y确认，回车否定]： " RELE
 case $RELE in
 	[Yy])
 		REG_UPDATE="true"
@@ -123,7 +133,9 @@ case $RELE in
 esac
 if [[ "${REG_UPDATE}" == "true" ]]; then
 	TIME g "设置Github地址,定时更新固件需要把固件传至对应地址的Releases"
-	TIME z "回车默认为：$Git"  && read -p " 请输入Github地址：" Github
+	TIME z "回车默认为：$Git"
+	echo
+	read -p " 请输入Github地址：" Github
 	Github="${Github:-"$Git"}"
 	TIME y "您的Github地址为：$Github"
 	Apidz="${Github##*com/}"
