@@ -76,7 +76,9 @@ echo
 
 while :; do
 
-TIME g "请选序列号[ 1、2、3、4、5 ]输入，然后回车确认您的选择！" && read -p " 输入您的选择： " CHOOSE
+TIME g "请选序列号[ 1、2、3、4、5 ]输入，然后回车确认您的选择！"
+echo
+read -p "输入您的选择： " CHOOSE
 
 case $CHOOSE in
 	1)
