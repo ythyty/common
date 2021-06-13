@@ -258,7 +258,7 @@ make -j$(($(nproc) + 1)) V=s
 if [ "$?" == "0" ]; then
 	End="$(TZ=UTC-8 date "+%Y/%m/%d-%H.%M")"
 	echo
-	TIME g "编译完成~~~"
+	TIME y "编译完成~~~"
 	echo
 	TIME g "开始时间：${Begin}"
 	echo
