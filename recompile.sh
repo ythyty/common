@@ -280,9 +280,9 @@ if [ "$?" == "0" ]; then
 	echo
 	if [[ "${REGULAR_UPDATE}" == "true" ]]; then
 		rm -rf bin/Firmware
-		[ -f openwrt/Openwrt.info ] && . openwrt/Openwrt.info
+		[ -f $Home/Openwrt.info ] && . $Home/Openwrt.info
 		source build/${firmware}/upgrade.sh && Diy_Part3
-		rm -rf ../Openwrt.info
+		rm -rf $Home/Openwrt.info
 		TIME g "加入‘定时升级固件插件’的固件已经放入[bin/Firmware]文件夹中"
 		echo
 	fi
