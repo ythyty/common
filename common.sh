@@ -29,15 +29,11 @@ Diy_lede() {
 
 find . -name 'luci-app-netdata' -o -name 'netdata' -o -name 'luci-theme-argon' -o -name 'k3screenctrl' | xargs -i rm -rf {}
 
-find ./package/lean -name 'luci-app-docker' | xargs -i rm -rf {}
-svn co https://github.com/immortalwrt/luci/branches/openwrt-18.06/applications/luci-app-docker package/lean/luci-app-docker
+find ./package/lean -name 'luci-app-docker' -name 'luci-lib-docker' | xargs -i rm -rf {}
 find . -name 'docker-ce' -o -name 'docker-compose' | xargs -i rm -rf {}
-svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/utils/docker-compose feeds/packages/utils/docker-compose
-svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/utils/docker feeds/packages/utils/docker
-svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/utils/dockerd feeds/packages/utils/dockerd
-
-svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/luci-app-dockerman
-svn co https://github.com/lisaac/luci-lib-docker/trunk/collections/luci-lib-docker package/luci-lib-docker
+svn co https://github.com/immortalwrt/packages/branches/openwrt-18.06/utils/docker-compose feeds/packages/utils/docker-compose
+svn co https://github.com/immortalwrt/packages/branches/openwrt-18.06/utils/docker feeds/packages/utils/docker
+svn co https://github.com/immortalwrt/packages/branches/openwrt-18.06/utils/dockerd feeds/packages/utils/dockerd
 
 sed -i 's/iptables -t nat/# iptables -t nat/g' "${ZZZ}"
 
