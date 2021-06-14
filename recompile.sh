@@ -165,20 +165,20 @@ elif [[ $firmware == "Project_source" ]]; then
 elif [[ $firmware == "Spirit_source" ]]; then
           git clone -b openwrt-21.02 --single-branch https://github.com/immortalwrt/immortalwrt openwrt
 fi
-mv -f ./{dl,${Core},.bf_config,compile.sh,recompile.sh} ./openwrt
+Home="$PWD/openwrt"
+PATH1="$PWD/openwrt/build/${firmware}"
+mv -f {dl,${Core},.bf_config,compile.sh,recompile.sh} $Home
 echo
 TIME g "正在加载自定义设置,请耐心等候~~~"
 echo
-svn co https://github.com/281677160/AutoBuild-OpenWrt/trunk/build openwrt/build
-git clone --depth 1 -b main https://github.com/281677160/common openwrt/build/common
-chmod -R +x openwrt/build/common
-chmod -R +x openwrt/build/${firmware}
-source openwrt/build/${firmware}/settings.ini
+svn co https://github.com/281677160/AutoBuild-OpenWrt/trunk/build $Home/build
+git clone --depth 1 -b main https://github.com/281677160/common $Home/build/common
+chmod -R +x $Home/build/common
+chmod -R +x $Home/build/${firmware}
+source $Home/build/${firmware}/settings.ini
 REGULAR_UPDATE="${REG_UPDATE}"
-mv -f openwrt/build/common/{Convert.sh,recompile.sh,compile.sh} ./openwrt
-mv -f openwrt/build/common/*.sh ./openwrt/build/${firmware}
-Home="$PWD/openwrt"
-PATH1="$PWD/openwrt/build/${firmware}"
+mv -f $Home/build/common/{Convert.sh,recompile.sh,compile.sh} $Home
+mv -f $Home/build/common/*.sh ./openwrt/build/${firmware}
 
 cd openwrt
 ./scripts/feeds update -a
