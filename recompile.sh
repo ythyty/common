@@ -150,10 +150,10 @@ if [[ "${REG_UPDATE}" == "true" ]]; then
 fi
 echo
 Begin="$(TZ=UTC-8 date "+%Y/%m/%d-%H.%M")"
+cp -Rf ./openwrt/{dl,${Core},.bf_config,compile.sh,recompile.sh,Openwrt.info} ./
 echo
 TIME g "正在下载源码,请耐心等候~~~"
 echo
-cp -Rf ./openwrt/{dl,${Core},.bf_config,compile.sh,recompile.sh,Openwrt.info} ./
 rm -rf openwrt
 if [[ $firmware == "Lede_source" ]]; then
           git clone -b master --single-branch https://github.com/coolsnowwolf/lede openwrt
