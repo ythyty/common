@@ -28,12 +28,8 @@ TIME() {
 Diy_lede() {
 
 find . -name 'luci-app-netdata' -o -name 'netdata' -o -name 'luci-theme-argon' -o -name 'k3screenctrl' | xargs -i rm -rf {}
-
-find ./package/lean -name 'luci-app-docker' -name 'luci-lib-docker' | xargs -i rm -rf {}
+find . -name 'luci-app-docker' -name 'luci-lib-docker' | xargs -i rm -rf {}
 find . -name 'docker-ce' -o -name 'docker-compose' | xargs -i rm -rf {}
-svn co https://github.com/immortalwrt/packages/branches/openwrt-18.06/utils/docker-compose feeds/packages/utils/docker-compose
-svn co https://github.com/immortalwrt/packages/branches/openwrt-18.06/utils/docker feeds/packages/utils/docker
-svn co https://github.com/immortalwrt/packages/branches/openwrt-18.06/utils/dockerd feeds/packages/utils/dockerd
 
 sed -i 's/iptables -t nat/# iptables -t nat/g' "${ZZZ}"
 
