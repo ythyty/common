@@ -30,8 +30,8 @@ Diy_lede() {
 find . -name 'luci-app-netdata' -o -name 'netdata' -o -name 'luci-theme-argon' -o -name 'k3screenctrl' | xargs -i rm -rf {}
 
 find ./package/lean -name 'luci-app-docker' -o -name 'luci-lib-docker' | xargs -i rm -rf {}
-svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/luci-app-dockerman
-svn co https://github.com/lisaac/luci-lib-docker/trunk/collections/luci-lib-docker package/luci-lib-docker
+svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman package/lean/luci-app-dockerman
+svn co https://github.com/lisaac/luci-lib-docker/trunk/collections/luci-lib-docker package/lean/luci-lib-docker
 find ./feeds/packages/utils -name 'docker-ce' -o -name 'docker-compose' | xargs -i rm -rf {}
 svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/utils/docker-compose feeds/packages/utils/docker-compose
 svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/utils/docker feeds/packages/utils/docker
