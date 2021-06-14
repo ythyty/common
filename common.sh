@@ -28,8 +28,6 @@ TIME() {
 Diy_lede() {
 
 find . -name 'luci-app-netdata' -o -name 'netdata' -o -name 'luci-theme-argon' -o -name 'k3screenctrl' | xargs -i rm -rf {}
-find . -name 'luci-app-docker' -name 'luci-lib-docker' | xargs -i rm -rf {}
-find . -name 'docker-ce' -o -name 'docker-compose' | xargs -i rm -rf {}
 
 sed -i 's/iptables -t nat/# iptables -t nat/g' "${ZZZ}"
 
