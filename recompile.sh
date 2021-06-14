@@ -255,7 +255,7 @@ TIME l "*****10秒后开始下载DL文件*****"
 echo
 TIME y "请留意以下下载是否出现一串白色英文，有就代表下载有错误了！"
 echo
-TIME g "出现下载有错误的话，你就不需要下一步继续了，Ctrl+C终止重新再来吧，下载有错误是编译不成功的。"
+TIME y "出现下载有错误的话，你就不需要下一步继续了，Ctrl+C终止重新再来吧，下载有错误是编译不成功的。"
 echo
 sleep 10s
 echo
@@ -270,7 +270,7 @@ make -j$(($(nproc)+1)) || make -j1 V=s
 if [ "$?" == "0" ]; then
 	End="$(TZ=UTC-8 date "+%Y/%m/%d-%H.%M")"
 	echo
-	TIME y "编译完成~~~"
+	TIME l "编译完成~~~"
 	echo
 	TIME g "开始时间：${Begin}"
 	echo
