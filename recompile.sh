@@ -153,7 +153,7 @@ Begin="$(TZ=UTC-8 date "+%Y/%m/%d-%H.%M")"
 echo
 TIME g "正在下载源码,请耐心等候~~~"
 echo
-cp -Rf ./openwrt/{dl,${Core},.bf_config,compile.sh,recompile.sh} ./
+cp -Rf ./openwrt/{dl,${Core},.bf_config,compile.sh,recompile.sh,Openwrt.info} ./
 rm -rf openwrt
 if [[ $firmware == "Lede_source" ]]; then
           git clone -b master --single-branch https://github.com/coolsnowwolf/lede openwrt
@@ -167,7 +167,7 @@ elif [[ $firmware == "Spirit_source" ]]; then
 fi
 Home="$PWD/openwrt"
 PATH1="$PWD/openwrt/build/${firmware}"
-mv -f {dl,${Core},.bf_config,compile.sh,recompile.sh} $Home
+mv -f {dl,${Core},.bf_config,compile.sh,recompile.sh,Openwrt.info} $Home
 echo
 TIME g "正在加载自定义设置,请耐心等候~~~"
 echo
