@@ -56,6 +56,8 @@ elif [[ `grep -c "CONFIG_TARGET.*DEVICE.*=y" openwrt/.bf_config` -eq '1' ]]; the
 else
           TARGET_PROFILE="armvirt"
 fi
+
+
 TIME g "使用[${firmware}]源码编译[${TARGET_PROFILE}]固件,是否更换源码?"
 echo
 read -p " [Y/y确认，回车跳过]： " GHYM
@@ -67,6 +69,7 @@ case $GHYM in
 	;;
 	*)
 		TIME r "您已关闭更换源码编译选项！"
+		
 	;;
 esac
 echo
@@ -123,8 +126,8 @@ case $RELE in
 	[Yy])
 		REG_UPDATE="true"
 		rm -rf openwrt/bin/Firmware
-		echo "Compile_Date=$(date +%Y%m%d%H%M)" > Openwrt.info
-		[ -f Openwrt.info ] && . Openwrt.info
+		echo "Compile_Date=$(date +%Y%m%d%H%M)" > openwrt/Openwrt.info
+		[ -f openwrt/Openwrt.info ] && . openwrt/Openwrt.info
 		
 	;;
 	*)
@@ -148,26 +151,37 @@ fi
 echo
 Begin="$(TZ=UTC-8 date "+%Y/%m/%d-%H.%M")"
 echo
+TIME g "正在下载源码,请耐心等候~~~"
+echo
+cp -Rf ./openwrt/{dl,${Core},.bf_config,compile.sh,recompile.sh} ./
+rm -rf openwrt
+if [[ $firmware == "Lede_source" ]]; then
+          git clone -b master --single-branch https://github.com/coolsnowwolf/lede openwrt
+	  echo "Git=$Github" >> openwrt/.Lede_core
+elif [[ $firmware == "Lienol_source" ]]; then
+          git clone -b 19.07 --single-branch https://github.com/Lienol/openwrt openwrt
+elif [[ $firmware == "Project_source" ]]; then
+          git clone -b openwrt-18.06 --single-branch https://github.com/immortalwrt/immortalwrt openwrt
+elif [[ $firmware == "Spirit_source" ]]; then
+          git clone -b openwrt-21.02 --single-branch https://github.com/immortalwrt/immortalwrt openwrt
+fi
+mv -f ./{dl,${Core},.bf_config,compile.sh,recompile.sh} ./openwrt
+echo
 TIME g "正在加载自定义设置,请耐心等候~~~"
 echo
-git clone --depth 1 -b main https://github.com/281677160/common
-chmod -R +x common
-cp -Rf common/* openwrt/build/common
-mv -f openwrt/build/common/{Convert.sh,recompile.sh} openwrt
-mv -f openwrt/build/common/*.sh openwrt/build/${firmware}
-rm -rf common
+svn co https://github.com/281677160/AutoBuild-OpenWrt/trunk/build openwrt/build
+git clone --depth 1 -b main https://github.com/281677160/common openwrt/build/common
+chmod -R +x openwrt/build/common
 chmod -R +x openwrt/build/${firmware}
 source openwrt/build/${firmware}/settings.ini
 REGULAR_UPDATE="${REG_UPDATE}"
-
+mv -f openwrt/build/common/{Convert.sh,recompile.sh,compile.sh} ./openwrt
+mv -f openwrt/build/common/*.sh ./openwrt/build/${firmware}
 Home="$PWD/openwrt"
 PATH1="$PWD/openwrt/build/${firmware}"
 
 cd openwrt
-rm -rf ./tmp && rm -rf .config
-rm -rf package/{luci-app-passwall,luci-app-ssr-plus}
-rm -rf package/{luci-app-dockerman,luci-lib-docker}
-./scripts/feeds clean && ./scripts/feeds update -a
+./scripts/feeds update -a
 if [[ "${REPO_BRANCH}" == "master" ]]; then
           source build/${firmware}/common.sh && Diy_lede
           cp -Rf build/common/LEDE/files ./
@@ -205,12 +219,11 @@ fi
 echo
 TIME g "正在加载源和安装源,请耐心等候~~~"
 echo
-sed -i '/uci commit network/d' $ZZZ
-sed -i '/network.lan.ipaddr/d' $ZZZ
-sed -i '/CYXluq4wUazHjmCDBCqXF/d' $ZZZ
 sed -i "/uci commit fstab/a\uci commit network" $ZZZ
 sed -i "/uci commit network/i\uci set network.lan.ipaddr='$ip'" $ZZZ
+sed -i '/CYXluq4wUazHjmCDBCqXF/d' $ZZZ
 echo
+sed -i 's/"管理权"/"改密码"/g' `grep "管理权" -rl ./feeds/luci/modules/luci-base`
 sed -i 's/"带宽监控"/"监控"/g' `grep "带宽监控" -rl ./feeds/luci/applications`
 sed -i 's/"Argon 主题设置"/"Argon设置"/g' `grep "Argon 主题设置" -rl ./feeds/luci/applications`
 ./scripts/feeds update -a && ./scripts/feeds install -a
@@ -238,23 +251,21 @@ if [ "${REGULAR_UPDATE}" == "true" ]; then
 fi
 echo
 echo
-TIME l "*****5秒后开始下载DL文件*****"
-TIME y "请留意以下下载是否出现一串白色英文带make -j1 V=s字样的，有就代表下载有错误了！"
+TIME l "*****10秒后开始下载DL文件*****"
+echo
+TIME y "请留意以下下载是否出现一串白色英文，有就代表下载有错误了！"
+echo
 TIME g "出现下载有错误的话，你就不需要下一步继续了，Ctrl+C终止重新再来吧，下载有错误是编译不成功的。"
 echo
-TIME l "你可以随时按Ctrl+C终止编译"
-echo
-TIME g "大陆用户编译前请准备好梯子,使用大陆白名单或全局模式"
-echo
-sleep 4s
+sleep 10s
 echo
 make -j8 download
 echo
-TIME l "开始编译固件,预计需要1.5-2小时,请耐心等待..."
+TIME l "开始编译固件,预计需要3-4小时,请耐心等待..."
 echo
 sleep 2s
 
-make -j$(($(nproc) + 1)) V=s
+make -j$(($(nproc)+1)) || make -j1 V=s
 
 if [ "$?" == "0" ]; then
 	End="$(TZ=UTC-8 date "+%Y/%m/%d-%H.%M")"
@@ -269,6 +280,7 @@ if [ "$?" == "0" ]; then
 	echo
 	if [[ "${REGULAR_UPDATE}" == "true" ]]; then
 		rm -rf bin/Firmware
+		[ -f openwrt/Openwrt.info ] && . openwrt/Openwrt.info
 		source build/${firmware}/upgrade.sh && Diy_Part3
 		rm -rf ../Openwrt.info
 		TIME g "加入‘定时升级固件插件’的固件已经放入[bin/Firmware]文件夹中"
