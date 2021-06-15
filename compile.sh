@@ -39,7 +39,7 @@ fi
 if [ -z "$(ls -A "openwrt/recompile.sh" 2>/dev/null)" ]; then
 	Apt_get="YES"
 fi
-rm -Rf openwrt
+rm -rf openwrt
 echo
 echo
 if [[ "$Apt_get" == "YES" ]]; then
@@ -173,13 +173,9 @@ read -p " [Y/y确认，回车否定]： " RELE
 case $RELE in
 	[Yy])
 		REG_UPDATE="true"
-		echo "Compile_Date=$(date +%Y%m%d%H%M)" > Openwrt.info
-		[ -f Openwrt.info ] && . Openwrt.info
-		rm -rf openwrt/bin/Firmware
 	;;
 	*)
 		TIME r "您已关闭把‘定时更新插件’编译进固件！"
-		rm -rf openwrt/bin/Firmware
 		Github="https://github.com/281677160/AutoBuild-OpenWrt"
 	;;
 esac
@@ -225,18 +221,20 @@ elif [[ $firmware == "Spirit_source" ]]; then
 	  echo "ipdz=$ip" > openwrt/.Spirit_core
 	  echo "Git=$Github" >> openwrt/.Spirit_core
 fi
-svn co https://github.com/281677160/AutoBuild-OpenWrt/trunk/build openwrt/build
-git clone --depth 1 -b main https://github.com/281677160/common openwrt/build/common
-chmod -R +x openwrt/build/common
-chmod -R +x openwrt/build/${firmware}
-source openwrt/build/${firmware}/settings.ini
-REGULAR_UPDATE="${REG_UPDATE}"
 Home="$PWD/openwrt"
 PATH1="$PWD/openwrt/build/${firmware}"
+echo "Compile_Date=$(date +%Y%m%d%H%M)" > $Home/Openwrt.info
+[ -f $Home/Openwrt.info ] && . $Home/Openwrt.info
+svn co https://github.com/281677160/AutoBuild-OpenWrt/trunk/build $Home/build
+git clone --depth 1 -b main https://github.com/281677160/common $Home/build/common
+chmod -R +x $Home/build/common
+chmod -R +x $Home/build/${firmware}
+source $Home/build/${firmware}/settings.ini
+REGULAR_UPDATE="${REG_UPDATE}"
 
 rm -rf compile.sh
-mv -f openwrt/build/common/{Convert.sh,recompile.sh,compile.sh} openwrt
-mv -f openwrt/build/common/*.sh openwrt/build/${firmware}
+mv -f $Home/build/common/{Convert.sh,recompile.sh,compile.sh} openwrt
+mv -f $Home/build/common/*.sh openwrt/build/${firmware}
 echo
 TIME g "正在加载自定义文件,请耐心等候~~~"
 echo
@@ -350,12 +348,12 @@ if [ "$?" == "0" ]; then
 	TIME y "固件已经存入openwrt/bin/targets/${TARGET_BOARD}/${TARGET_SUBTARGET}文件夹中"
 	echo
 	if [[ "${REGULAR_UPDATE}" == "true" ]]; then
-		rm -rf bin/Firmware
+		[ -f $Home/Openwrt.info ] && . $Home/Openwrt.info
 		source build/${firmware}/upgrade.sh && Diy_Part3
-		rm -rf ../Openwrt.info
 		TIME g "加入‘定时升级固件插件’的固件已经放入[bin/Firmware]文件夹中"
 		echo
 	fi
+	rm -rf $Home/Openwrt.info
 else
 	echo
 	TIME r "编译失败，请再尝试编译~~~"
