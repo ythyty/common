@@ -51,6 +51,9 @@ find . -name 'luci-app-netdata' -o -name 'netdata' -o -name 'luci-theme-argon' |
 git clone https://github.com/fw876/helloworld package/luci-app-ssr-plus
 git clone https://github.com/xiaorouji/openwrt-passwall package/luci-app-passwall
 
+rm -rf feeds/packages/libs/libcap
+svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/libs/{libcap,libcap-ng} feeds/packages/libs > /dev/null 2>&1
+
 sed -i 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += luci-app-passwall/g' target/linux/x86/Makefile
 sed -i "/exit 0/i\chmod +x /etc/webweb.sh && source /etc/webweb.sh > /dev/null 2>&1" package/base-files/files/etc/rc.local
 }
