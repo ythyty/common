@@ -318,7 +318,7 @@ TIME g "正在下载DL文件,请耐心等待..."
 echo
 make -j8 download V=s
 echo
-TIME l "*****10秒后开始下载DL文件*****"
+TIME l "*****10秒后重新下载DL文件，检测是否有没下载到的文件*****"
 echo
 TIME y "请留意以下下载是否出现一串白色英文带make with -j1 V=s or V=sc字样的，有就代表下载有错误了！"
 echo
