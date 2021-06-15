@@ -67,7 +67,6 @@ Diy_1806() {
 find . -name 'luci-theme-argonv3' -o -name 'luci-app-argon-config' -o -name 'luci-theme-argon'  | xargs -i rm -rf {}
 find . -name 'luci-theme-argonv2' -o -name 'luci-app-timecontrol' | xargs -i rm -rf {}
 
-curl -fsSL https://raw.githubusercontent.com/coolsnowwolf/lede/master/tools/zstd/Makefile  > tools/zstd/Makefile
 
 sed -i "/exit 0/i\sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release" ${ZZZ}
 sed -i "/exit 0/i\chmod +x /etc/webweb.sh && source /etc/webweb.sh > /dev/null 2>&1" package/base-files/files/etc/rc.local
