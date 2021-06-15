@@ -330,7 +330,7 @@ echo
 TIME l "开始编译固件,预计要3-4小时,请耐心等待..."
 sleep 2s
 echo
-make -j1 V=s
+make -j$(nproc) V=s
 
 if [ "$?" == "0" ]; then
 	End="$(TZ=UTC-8 date "+%Y/%m/%d-%H.%M")"
