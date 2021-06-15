@@ -313,26 +313,21 @@ echo
 echo
 TIME l "*****5秒后开始下载DL文件*****"
 echo
-TIME y "你可以随时按 Ctrl+C 强制终止编译"
-echo
-TIME g "大陆用户编译前请准备好梯子,使用大陆白名单或全局模式"
-echo
-echo
 sleep 3s
 TIME g "正在下载DL文件,请耐心等待..."
 echo
 make -j8 download V=s
 echo
-TIME y "DL文件下载完毕,重新下载一次检测是否有没下到的文件！"
-TIME l "请留意以下下载是否出现一串白色英文带make -j1 V=s字样的，有就代表下载有错误了！"
-TIME g "出现下载有错误的话，你就不需要下一步继续了，Ctrl+C终止重新再来吧，下载有错误是编译不成功的。"
-sleep 3s
+TIME l "*****10秒后开始下载DL文件*****"
+echo
+TIME y "请留意以下下载是否出现一串白色英文带make -j1 V=s字样的，有就代表下载有错误了！"
+echo
+TIME y "出现下载有错误的话，你就不需要下一步继续了，Ctrl+C终止重新再来吧，下载有错误是编译不成功的。"
+sleep 10s
 echo
 make -j8 download
 echo
 TIME l "开始编译固件,预计要3-4小时,请耐心等待..."
-echo
-TIME g "你可以随时按 Ctrl+C 终止编译"
 sleep 2s
 echo
 make -j1 V=s
