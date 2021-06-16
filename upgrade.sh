@@ -22,8 +22,8 @@ GET_TARGET_INFO() {
 		COMP2="lede"
 		ZUOZHE="Lean's"
 		if [[ "${TARGET_PROFILE}" == "x86-64" ]]; then
-			Up_Firmware="openwrt-x86-64-generic-squashfs-combined.${Firmware_sfxo}"
-			EFI_Up_Firmware="openwrt-x86-64-generic-squashfs-combined-efi.${Firmware_sfxo}"
+			Up_Firmware="openwrt-x86-64-combined-squashfs.${Firmware_sfxo}"
+			EFI_Up_Firmware="openwrt-x86-64-combined-squashfs-efi.${Firmware_sfxo}"
 			Firmware_sfx="${Firmware_sfxo}"
 		elif [[ "${TARGET_PROFILE}" == "phicomm-k3" ]]; then
 			Up_Firmware="openwrt-bcm53xx-generic-phicomm-k3-squashfs.trx"
