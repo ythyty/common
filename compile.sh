@@ -313,6 +313,8 @@ TIME l "*****5秒后开始下载DL文件*****"
 echo
 sleep 3s
 TIME g "正在下载DL文件,请耐心等待..."
+wget https://github.com/coolsnowwolf/lede/pull/6526.patch
+git apply 6526.patch
 echo
 make -j8 download V=s
 echo
