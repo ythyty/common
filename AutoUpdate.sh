@@ -472,11 +472,11 @@ echo "下载保存：${Download_Path}"
 sleep 1
 cd ${Download_Path}
 TIME g "正在下载云端固件,请耐心等待..."
-wget -q --no-cookie --no-check-certificate -T 15 -t 4 "https://download.fastgit.org/${XiaZai}/${Firmware_TARGZ}" -O ${Firmware_TARGZ}
+wget -q --no-cookie --no-check-certificate -T 15 -t 4 "https://ghproxy.com/https://github.com/${XiaZai}/${Firmware_TARGZ}" -O ${Firmware_TARGZ}
 if [[ $? -ne 0 ]];then
 	TIME z "FastGit下载云端固件失败,切换下载模式!"
 	TIME b1 "切换普通模式继续下载固件,请耐心等待......"
-	wget -q --no-cookie --no-check-certificate -T 15 -t 4 "https://github.com/${XiaZai}/${Firmware_TARGZ}" -O ${Firmware_TARGZ}
+	wget -q --no-cookie --no-check-certificate -T 15 -t 4 "https://mirror.ghproxy.com/https://github.com/${XiaZai}/${Firmware_TARGZ}" -O ${Firmware_TARGZ}
 	if [[ $? -ne 0 ]];then
 		TIME r "下载云端固件失败,请尝试手动安装!"
 		exit 1
