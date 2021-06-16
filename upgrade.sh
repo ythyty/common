@@ -28,7 +28,7 @@ GET_TARGET_INFO() {
 		elif [[ "${TARGET_PROFILE}" == "phicomm-k3" ]]; then
 			Up_Firmware="openwrt-bcm53xx-generic-phicomm-k3-squashfs.trx"
 			Firmware_sfx="trx"
-		elif [[ "${TARGET_PROFILE}" =~ (d-team_newifi-d2|phicomm_k2p|phicomm_k2p-32m) ]]; then
+		elif [[ "${TARGET_PROFILE}" =~ (d-team_newifi-d2|phicomm_k2p|phicomm_k2p-32m|xiaomi_mir3g) ]]; then
 			Up_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
 			Firmware_sfx="bin"
 		else
@@ -47,7 +47,7 @@ GET_TARGET_INFO() {
 		elif [[ "${TARGET_PROFILE}" == "phicomm-k3" ]]; then
 			Up_Firmware="openwrt-bcm53xx-phicomm-k3-squashfs.trx"
 			Firmware_sfx="trx"
-		elif [[ "${TARGET_PROFILE}" =~ (d-team_newifi-d2|k2p) ]]; then
+		elif [[ "${TARGET_PROFILE}" =~ (d-team_newifi-d2|k2p|xiaomi_mir3g) ]]; then
 			Up_Firmware="openwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
 			Firmware_sfx="bin"
 		else
@@ -66,7 +66,7 @@ GET_TARGET_INFO() {
 		elif [[ "${TARGET_PROFILE}" == "phicomm-k3" ]]; then
 			Up_Firmware="immortalwrt-bcm53xx-phicomm-k3-squashfs.trx"
 			Firmware_sfx="trx"
-		elif [[ "${TARGET_PROFILE}" =~ (d-team_newifi-d2|phicomm_k2p) ]]; then
+		elif [[ "${TARGET_PROFILE}" =~ (d-team_newifi-d2|phicomm_k2p|xiaomi_mir3g) ]]; then
 			Up_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
 			Firmware_sfx="bin"
 		else
@@ -85,7 +85,7 @@ GET_TARGET_INFO() {
 		elif [[ "${TARGET_PROFILE}" == "phicomm-k3" ]]; then
 			Up_Firmware="immortalwrt-bcm53xx-phicomm-k3-squashfs.trx"
 			Firmware_sfx="trx"
-		elif [[ "${TARGET_PROFILE}" =~ (d-team_newifi-d2|phicomm_k2p) ]]; then
+		elif [[ "${TARGET_PROFILE}" =~ (d-team_newifi-d2|phicomm_k2p|xiaomi_mir3g) ]]; then
 			Up_Firmware="immortalwrt-${TARGET_BOARD}-${TARGET_SUBTARGET}-${TARGET_PROFILE}-squashfs-sysupgrade.bin"
 			Firmware_sfx="bin"
 		else
